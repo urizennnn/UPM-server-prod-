@@ -4,7 +4,6 @@
   "description": "",
   "main": "server.ts",
   "scripts": {
-    "prestart" :"redis-server --port 1234"
     "start": "nodemon ./dist/server.js"
   },
   "keywords": [],
