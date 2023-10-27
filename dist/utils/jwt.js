@@ -27,7 +27,7 @@ exports.cookies = exports.verifyJWT = exports.createJWT = void 0;
 const jwt = __importStar(require("jsonwebtoken"));
 function createJWT(payload) {
     const token = jwt.sign(payload, process.env.JWT_SECRET, {
-        expiresIn: process.env.JWT_LIMIT,
+        expiresIn: '1h',
     });
     return token;
 }
