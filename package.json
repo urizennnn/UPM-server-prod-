@@ -4,6 +4,7 @@
   "description": "",
   "main": "server.ts",
   "scripts": {
+    
     "start": "nodemon ./dist/server.js"
   },
   "keywords": [],
