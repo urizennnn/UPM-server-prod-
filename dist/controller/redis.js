@@ -22,43 +22,19 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.connectRedis = void 0;
 const redis = __importStar(require("redis"));
-const retry_1 = __importDefault(require("retry")); // Import the 'retry' module
 async function connectRedis() {
-    const operation = retry_1.default.operation({
-        retries: 5,
-        factor: 2,
+    const client = redis.createClient({
+        password: "zmXQIrfLF1iFANq2pBwlEsr4QSLaJCtb",
+        socket: {
+            host: "redis-17103.c90.us-east-1-3.ec2.cloud.redislabs.com",
+            port: 17103,
+        },
     });
-    return new Promise((resolve, reject) => {
-        operation.attempt(async (currentAttempt) => {
-            const client = redis.createClient({
-                password: "zmXQIrfLF1iFANq2pBwlEsr4QSLaJCtb",
-                socket: {
-                    host: "redis-17103.c90.us-east-1-3.ec2.cloud.redislabs.com",
-                    port: 17103,
-                },
-            });
-            client.on("error", (err) => {
-                console.error("Redis Client Error", err);
-                if (operation.retry(err)) {
-                    console.log(`Retrying connection (attempt ${currentAttempt + 1})...`);
-                    client.quit();
-                }
-                else {
-                    console.error('Connection attempts exhausted. Unable to connect to Redis.');
-                    reject(err);
-                }
-            });
-            client.on("connect", () => {
-                console.log("Connected to Redis server");
-                resolve(client);
-            });
-        });
-    });
+    client.on("error", (err) => console.log("Redis Client Error", err));
+    await client.connect();
+    return client;
 }
 exports.connectRedis = connectRedis;
