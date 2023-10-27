@@ -37,6 +37,7 @@ const express_mongo_sanitize_1 = __importDefault(require("express-mongo-sanitize
 const DB = __importStar(require("./db/connect"));
 const user_1 = __importDefault(require("./routes/user"));
 const password_1 = __importDefault(require("./routes/password"));
+const returnerror_1 = require("./middleware/returnerror");
 dotenv.config();
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 8080;
@@ -47,6 +48,7 @@ app.use((0, cookie_parser_1.default)(process.env.JWT_SECRET));
 app.use((0, helmet_1.default)());
 app.use((0, express_mongo_sanitize_1.default)());
 app.use((0, errorhandler_1.default)());
+app.use(returnerror_1.errorHandler);
 app.use("/api/v1/user", user_1.default);
 app.use("/api/v1/password", password_1.default);
 (async () => {

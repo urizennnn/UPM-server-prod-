@@ -77,7 +77,7 @@ async function delUser(req, res) {
         res.status(http_status_codes_1.StatusCodes.OK).json({ message: "User deleted successfully." });
     }
     catch (error) {
-        throw new custom_error_1.default("Internal Server Error", http_status_codes_1.StatusCodes.INTERNAL_SERVER_ERROR);
+        throw new custom_error_1.default(error, http_status_codes_1.StatusCodes.INTERNAL_SERVER_ERROR);
     }
 }
 exports.delUser = delUser;
