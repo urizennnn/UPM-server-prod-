@@ -62,10 +62,7 @@ async function delUser(req, res) {
             throw new custom_error_1.default("User not found", http_status_codes_1.StatusCodes.BAD_REQUEST);
         }
         await Promise.all([user_1.default.deleteOne({ email }), (0, index_1.deleted)(existingUser.email)]);
-        const userDel = await (await client).DEL("Userpassword");
-        if (userDel !== 1) {
-            throw new custom_error_1.default("Error Deleting Password", http_status_codes_1.StatusCodes.BAD_REQUEST);
-        }
+        await (await client).DEL("Userpassword");
         res.cookie("refreshToken", "", {
             httpOnly: true,
             expires: new Date(Date.now()),
